@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        select, input {
+            margin-top: 5px;
+            padding: 5px;
+            width: 100%;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .remove-button {
+            background-color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Configure Your Car</h1>
+        <form id="carForm">
+            <label for="model">Select Model:</label>
+            <select id="model" name="model">
+                <option value="SUV">SUV</option>
+                <option value="Sedan">Sedan</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Convertible">Convertible</option>
+                <option value="Pickup Truck">Pickup Truck</option>
+                <option value="Coupe">Coupe</option>
+                <option value="Sports Car">Sports Car</option>
+                <option value="Electric">Electric</option>
+            </select>
+
+            <label for="engine">Select Engine:</label>
+            <select id="engine" name="engine">
+                <option value="V6">V6</option>
+                <option value="V4">V4</option>
+                <option value="V8">V8</option>
+                <option value="Electric">Electric</option>
+            </select>
+
+            <label for="color">Select Color:</label>
+            <select id="color" name="color">
+                <option value="Red">Red</option>
+                <option value="Blue">Blue</option>
+                <option value="Black">Black</option>
+                <option value="White">White</option>
+                <option value="Green">Green</option>
+                <option value="Yellow">Yellow</option>
+            </select>
+
+            <label for="features">Additional Features:</label>
+            <input type="checkbox" id="sunroof" name="features" value="Sunroof"> Sunroof<br>
+            <input type="checkbox" id="gps" name="features" value="GPS"> GPS<br>
+            <input type="checkbox" id="leatherSeats" name="features" value="Leather Seats"> Leather Seats<br>
+            <input type="checkbox" id="heatedSeats" name="features" value="Heated Seats"> Heated Seats<br>
+            <input type="checkbox" id="backupCamera" name="features" value="Backup Camera"> Backup Camera<br>
+
+            <button type="button" onclick="configureCar()">Configure Car</button>
+        </form>
+
+        <h2>Configured Cars:</h2>
+        <ul id="carList"></ul>
+    </div>
+
+    <script>
+        let carList = [];
+
+        function configureCar() {
+            const model = document.getElementById('model').value;
+            const engine = document.getElementById('engine').value;
+            const color = document.getElementById('color').value;
+
+            let features = [];
+            if (document.getElementById('sunroof').checked) features.push('Sunroof');
+            if (document.getElementById('gps').checked) features.push('GPS');
+            if (document.getElementById('leatherSeats').checked) features.push('Leather Seats');
+            if (document.getElementById('heatedSeats').checked) features.push('Heated Seats');
+            if (document.getElementById('backupCamera').checked) features.push('Backup Camera');
+
+            let carDescription = `Model: ${model}, Engine: ${engine}, Color: ${color}, Features: ${features.join(', ')}`;
+
+            carList.push(carDescription);
+            displayCars();
+        }
+
+        function displayCars() {
+            const carListElement = document.getElementById('carList');
+            carListElement.innerHTML = '';  // Limpiar la lista antes de agregar los coches actualizados
+
+            carList.forEach((car, index) => {
+                let listItem = document.createElement('li');
+                listItem.textContent = car;
+
+                // Botón para eliminar el coche
+                let removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.className = 'remove-button';
+                removeButton.onclick = () => removeCar(index);
+
+                listItem.appendChild(removeButton);
+                carListElement.appendChild(listItem);
+            });
+        }
+
+        function removeCar(index) {
+            carList.splice(index, 1);
+            displayCars();
+        }
+    </script>
+</body>
+</html>
